@@ -1,0 +1,199 @@
+---
+Title: Mandarin Nanny ERD
+---
+
+erDiagram
+    USER ||--o{ AVAILABILITY : create
+    USER ||--o{ CARD_DETAILS : create
+    USER ||--o{ NOTIFICATION_SETTING : create
+    USER ||--o{ VISIBILITY_SETTING : create
+    USER ||--o{ BOOKING : create
+    REVIEWS ||--|{ BOOKING : contains
+    USER ||--o{ REVIEWS : create
+    USER ||--o{ NEWSFEED : create
+    USER ||--o{ NEWSFEED_COMMENTS : create
+    NEWSFEED_COMMENTS ||--|{ NEWSFEED : contains
+    USER ||--o{ CONVERSATION : create
+    USER ||--o{ MESSAGE : create
+    MESSAGE ||--|{ CONVERSATION : contains
+    USER ||--o{ SUPPORT : create
+    USER ||--o{ NOTIFICATION : create
+
+
+    USER{
+        uuid ObjectId
+        string firstName
+        string lastName
+        string email
+        string password
+        string phoneNumber
+        string address
+        string city
+        string gender
+        string state
+        string zipCode
+        string country
+        string avatarUrl
+        string role
+        string status
+        boolean isAvailable
+        string currency
+        string language
+        timestamp dob
+        text bio
+        number otpCode 
+        timestamp otpCodeExpiry
+        number zipCode
+        boolean isClient
+        boolean isNanny
+        string paymentMethod
+        string recievePaymentMethod
+        number workExperience
+        number hourlyRate
+        string website
+        string companyName
+        string identityVerificationUrl
+        array certificateUrl
+        number serveCustomerWithin "number in miles"
+        timestamp createdAt 
+        timestamp updatedAt
+        array services
+        array location
+
+        LOCATION location
+        AVAILABILITY availability
+        CARD_DETAILS cardDetails
+        NOTIFICATION_SETTING notificationSetting
+        VISIBILITY_SETTING visibilitySetting
+        BOOKING bookings
+        REVIEWS reviews
+        NEWSFEED newsfeed
+        NEWSFEED_COMMENTS newsfeedComments
+    }
+
+    AVAILABILITY{
+        uuid ObjectId
+        USER userId
+        timestamp fromDate 
+        timestamp toDate
+        array time
+        timestamp createdAt
+        timestamp updatedAt
+    }
+
+    CARD_DETAILS{
+        uuid ObjectId
+        USER userId
+        string cardType
+        string cardNumber
+        string cardExpiry
+        string cardCvv
+        string cardHolderName
+        isDefault boolean
+        timestamp createdAt
+        timestamp updatedAt
+    }
+
+    NOTIFICATION_SETTING{
+        uuid ObjectId
+        USER userId
+        boolean message
+        boolean serviceProvider
+        boolean review
+        boolean bookingRequest
+        boolean promotion
+        boolean payment
+        timestamp createdAt
+        timestamp updatedAt
+    }
+
+    VISIBILITY_SETTING{
+        uuid ObjectId
+        USER userId
+        boolean photo
+        boolean phoneNumber
+        boolean email
+        boolean review
+        timestamp createdAt
+        timestamp updatedAt
+    }
+
+    BOOKING{
+        uuid ObjectId
+        USER clientId
+        USER nannyId
+        timestamp bookingDate
+        number bookingHour
+        string bookingStatus
+
+    }
+
+    REVIEWS {
+        uuid ObjectId
+        USER revieweeId
+        USER reviewerId
+        text review
+        number rating
+        timestamp createdAt
+        timestamp updatedAt
+        BOOKING bookingId
+    }
+
+    NEWSFEED {
+        uuid ObjectId
+        timestamp createdAt
+        timestamp updatedAt
+        text post
+        string mediaUrl
+        string mediaType
+        array likedBy "array of userId"
+        USER userId 
+    }
+
+    NEWSFEED_COMMENTS {
+        uuid ObjectId
+        text comment
+        timestamp createdAt
+        timestamp updatedAt
+        USER userId
+        NEWSFEED newsfeedId
+    }
+
+    CONVERSATION{
+        uuid ObjectId
+        timestamp createdAt
+        timestamp updatedAt
+        USER userOne
+        USER userTwo
+        MESSAGE messages
+    }
+
+    MESSAGE{
+        uuid ObjectId
+        timestamp createdAt
+        timestamp updatedAt
+        text message
+        USER from
+        USER to
+        CONVERSATION conversationId
+    }
+
+    SUPPORT{
+        uuid ObjectId
+        timestamp createdAt
+        timestamp updatedAt
+        text message
+        USER userId
+    }
+
+    NOTIFICATION{
+        uuid ObjectId
+        timestamp createdAt
+        timestamp updatedAt
+        string title
+        string description
+        string type "cancel_booking, request_booking, accept_booking, reject_booking, review, message, promotion, payment, meeting"
+        USER userId
+    }
+
+
